@@ -18,6 +18,99 @@
             width: 1000px;
             margin: 20px auto;
         }
+        /********
+         *
+         * Basic elements
+         *
+         *******/
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500;
+            line-height: 1.1
+        }
+
+        button, input[type=submit] {
+            padding: 8px 16px;
+            border-radius: 4px;
+            color: #333;
+            border-color: #ccc;
+        }
+
+        button:hover, input[type=submit]:hover,
+        button:active, input[type=submit]:active {
+            background-color: #e6e6e6;
+            border-color: #adadad;
+        }
+
+        button:active, input[type=submit]:active {
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+        }
+
+        /********
+         *
+         * Forms
+         *
+         *******/
+        input[type=text], input[type=number] {
+            padding: 5px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        }
+
+        input[type=text]:focus, input[type=number]:focus {
+            border-color: #66afe9;
+            outline: 0;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+        }
+
+        /********
+         *
+         * Tables
+         *
+         *******/
+
+        table {
+            width: 100%;
+            border-spacing: 0;
+        }
+
+        thead > tr > th {
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
+
+        td, th {
+            padding: 8px;
+        }
+
+        td {
+            border-top: 1px solid #ddd;
+        }
+
+        tbody > tr:first-child > td {
+            border: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: #efefef;
+        }
+
+        td:last-child button {
+            float: right;
+        }
+
+        td.col-currency {
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -38,12 +131,12 @@
 
 
 <script>
-    const API_HOSTNAME = 'localhost:8080';
     const listTable = document.getElementById('list');
+    const apiUrl = 'http://<%= hostname %>:<%= port %>/api';
 
     async function init() {
         // Load todo list from server
-        const getRes = await fetch(`http://${API_HOSTNAME}/api/`);
+        const getRes = await fetch(`${apiUrl}/`);
         const items = await getRes.json();
 
         items.forEach(renderItem);
@@ -63,7 +156,7 @@
             addItemInput.value = "";
 
             // Call POST /api/
-            const postRes = await fetch(`http://${API_HOSTNAME}/api/`, {
+            const postRes = await fetch(`${apiUrl}/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -96,7 +189,7 @@
         const isDoneToggle = tr.querySelector('.is-done-toggle');
         isDoneToggle.onclick = () => {
             item.isDone = !item.isDone;
-            fetch(`http://${API_HOSTNAME}/api/${item.id}`, {
+            fetch(`${apiUrl}/${item.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -110,7 +203,7 @@
         const removeItemButton = tr.querySelector('.remove-item');
         removeItemButton.onclick = () => {
             listTable.removeChild(tr);
-            fetch(`http://${API_HOSTNAME}/api/${item.id}`, {
+            fetch(`${apiUrl}/${item.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
