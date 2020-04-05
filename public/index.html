@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+
+    <!--
+    Normalize.css
+    Provides consistent baseline styles across different browsers.
+    See https://necolas.github.io/normalize.css/
+    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+
+    <link rel="stylesheet" href="./style.css">
+
+    <style>
+        #app {
+            width: 1000px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <h1>Todo List</h1>
+
+    <table style="width: 500px;">
+        <tbody id="list">
+        </tbody>
+    </table>
+
+    <div style="margin-top: 20px;">
+        <input id="add-item-input" type="text" placeholder="Item Label">
+        <button id="add-item-button">Add Item</button>
+    </div>
+</div>
+
+
+<script>
+    const API_HOSTNAME = 'localhost:8080';
+    const listTable = document.getElementById('list');
+
+    async function init() {
+        // Load todo list from server
+        const getRes = await fetch(`http://${API_HOSTNAME}/api/`);
+        const items = await getRes.json();
+
+        items.forEach(renderItem);
+
+        // When the "Add Item" button is clicked,
+        // call POST /api/ with the new item
+        const addItemInput = document.getElementById('add-item-input');
+        const addItemButton = document.getElementById('add-item-button');
+        addItemButton.onclick = async () => {
+            // Create the item
+            const item = {
+                label: addItemInput.value,
+                isDone: false
+            };
+
+            // Clean the text field
+            addItemInput.value = "";
+
+            // Call POST /api/
+            const postRes = await fetch(`http://${API_HOSTNAME}/api/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(item)
+            });
+
+            // Render the new item
+            const newItem = await postRes.json();
+            renderItem(newItem);
+        }
+    }
+
+    function renderItem(item) {
+        // Create <tr> element for the item
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>
+                <input class="is-done-toggle" type="checkbox" ${item.isDone ? "checked" : ""}>
+            </td>
+            <td>${item.label}</td>
+            <td>
+                <button class="remove-item">Remove</button>
+            </td>
+        `;
+        listTable.appendChild(tr);
+
+        // When checkbox is clicked,
+        // call PUT /api/:itemId with updated item
+        const isDoneToggle = tr.querySelector('.is-done-toggle');
+        isDoneToggle.onclick = () => {
+            item.isDone = !item.isDone;
+            fetch(`http://${API_HOSTNAME}/api/${item.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(item)
+            });
+        };
+
+        // When the "Remove" button is clicked,
+        // call DELETE /api/:itemId
+        const removeItemButton = tr.querySelector('.remove-item');
+        removeItemButton.onclick = () => {
+            listTable.removeChild(tr);
+            fetch(`http://${API_HOSTNAME}/api/${item.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+    }
+
+    init();
+
+</script>
+
+</body>
+</html>
