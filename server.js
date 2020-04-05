@@ -1,10 +1,6 @@
 const express = require('express');
 const app = express();
 
-// Grab the hostname and port from environment variables
-const HOSTNAME = process.env.HOSTNAME || 'localhost';
-const PORT = parseInt(process.env.PORT || '80');
-
 // Create a list of "todo" items,
 // which will be managed by our API server.
 // In a real application, these items would be stored in a database somewhere.
@@ -19,18 +15,6 @@ const todoItems = [
 // We will increment our `id` property by one for each record.
 // This value will be the id for the next item created.
 let nextId = 4;
-
-// Render HTML templates using EJS
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-
-// Serve index.html
-app.get('/', (req, res) => {
-   res.render('index', {
-       hostname: HOSTNAME,
-       port: PORT
-   })
-});
 
 // Middleware for express.js to support JSON requests
 app.use(express.json());
@@ -64,13 +48,13 @@ app.post('/api/', (req, res) => {
 // with values from the JSON in the user's request body.
 // Returns the updated item
 app.put('/api/:id', (req, res) => {
-   // Find the item
+    // Find the item
     const item = todoItems.find(i => i.id === parseInt(req.params.id));
 
     // Return 404, if the item doesn't exist
     if (!item) {
         return res.status(404)
-            .json({ error: `Item with id ${req.params.id} does not exist`})
+            .json({error: `Item with id ${req.params.id} does not exist`})
     }
 
     // Update item, with the request body
@@ -89,7 +73,7 @@ app.delete('/api/:id', (req, res) => {
     // Return 404, if the item doesn't exist
     if (itemIndex === -1) {
         return res.status(404)
-            .json({ error: `Item with id ${req.params.id} does not exist`})
+            .json({error: `Item with id ${req.params.id} does not exist`})
     }
 
     // Remove the item from the list
@@ -99,6 +83,29 @@ app.delete('/api/:id', (req, res) => {
     res.status(204).send()
 });
 
-// Run the server, listening to requests on port 80
-// (the default port for HTTP requests).
-app.listen(PORT);
+
+
+// Render HTML templates using EJS
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+// Serve index.html
+app.get('/', (req, res) => {
+    // We're going to pass in the HOSTNAME and PORT environment variables
+    // into our index.html file.
+    // This tells the the "client" what URL to use when
+    // making requests for our API server
+    //
+    // By default, this will assume your running on your local machine,
+    // and direct API requests to `http://localhost:8080
+    //
+    // If we're running this in AWS, we'll set these environment variables to
+    // the public IP address of the EC2 instance we're running on.
+    res.render('index', {
+        hostname: process.env.HOSTNAME || 'localhost',
+        port: parseInt(process.env.PORT || '8080')
+    })
+});
+
+// Run the server
+app.listen(parseInt(process.env.PORT || '8080'));
