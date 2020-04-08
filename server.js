@@ -109,3 +109,5 @@ app.get('/', (req, res) => {
 
 // Run the server
 app.listen(parseInt(process.env.PORT || '8080'));
+
+console.log(`App running at http://${process.env.HOSTNAME || 'localhost'}:${parseInt(process.env.PORT || '8080')}`);
