@@ -7,8 +7,7 @@ const app = express();
 // But for the purposes of this demonstration, we can keep them here "in memory".
 const todoItems = [
     {id: 0, 'label': 'Learn to Code', isDone: true},
-    {id: 1, 'label': 'Learn to Cloud', isDone: false},
-    {id: 2, 'label': '...?', isDone: false},
+    {id: 1, 'label': 'Master the Cloud', isDone: false},
     {id: 3, 'label': 'Profit', isDone: false}
 ];
 
