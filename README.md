@@ -44,7 +44,16 @@ The client application code is located in [views/index.html](./views/index.html)
 
 ## Running the code locally 
 
-To run the web server locally, you will first need to install your node dependencies (eg. express.js). From your terminal/command-line, go to the project directory and run:
+From your terminal or Command Line, run:
+
+```
+git clone https://github.com/eschwartz/prime-cloud-intro.git
+cd prime-cloud-intro
+```
+
+This will clone the project git repo onto your machine
+
+To run the web server locally, you will first need to install your Node.js dependencies (eg. Express.js). 
 
 ```
 npm install 
@@ -63,7 +72,9 @@ App running at http://localhost:8080
 ``` 
 
 That means your web server is up and running. Paste that URL (http://localhost:8080) into your browser. You should see the _Todo List_ application:
-@
+
+-----
+
 ![App Demo](docs/app-screencast.gif) 
 
 To shut down the web server, go back to your Terminal / Command Line, and hit `Ctrl+C`.
@@ -96,7 +107,7 @@ In the side navigation, select _Instances_, then click the big blue _Launch Inst
 
 ![screenshot](./docs/screenshot-launch-instance.png)
 
-You will be prompted to choose a _Amazon Machine Image_. This is a fancy way of asking why kind of operating system you want on your virtual machine. For this demo, we'll use Ubuntu, a popular Linux OS. Scroll down until you find _Ubuntu Server 18.04_, and select that option:
+You will be prompted to choose an _Amazon Machine Image_. This is a fancy way of asking what kind of operating system you want on your virtual machine. For this demo, we'll use Ubuntu, a popular Linux OS. Scroll down until you find _Ubuntu Server 18.04_, and select that option:
 
 ![screenshot](./docs/screenshot-ami.png)
 
@@ -132,10 +143,10 @@ Congratulations! You've created a virtual machine in the cloud!
 
 So your virtual machine is up and running. But into order to _do_ anything with it, you'll need to SSH into it.
 
-**This guide will assume you're running on a Mac or Linux machine**
+> **This guide will assume you're running on a Mac or Linux machine**
 For using SSH with windows, [see this guide from the AWS docs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html)
 
-First, will need to find the key pair file we created in the last section. If you're on a Mac, it should be in `~/Downloads/my-machine.pem`. Let's move it somewhere safer, where we won't accidentally delete it.
+First, we will need to find the key pair file we created in the last section. If you're on a Mac, it should be in `~/Downloads/my-machine.pem`. Let's move it somewhere safer, where we won't accidentally delete it.
 
 Open your Terminal, and run the following commands:
 
@@ -147,7 +158,7 @@ chmod 400 ~/.ssh/my-machine.pem
 
 That moves the file to a directory called `.ssh`, within your home directory. The last line (`chmod`) changes the permissions on the file, to keep it secure.
 
-Next, we'll need to know the web address our our virtual machine. Every virtual machine created in AWS gets a "Public IP address", which is basically like a web address for machine. Let's go back to the AWS EC2 dashboard, to find the public IP address:
+Next, we'll need to know the web address of our virtual machine. Every virtual machine created in AWS gets a "Public IP address", which is basically like a web address for machine. Let's go back to the AWS EC2 dashboard, to find the public IP address:
 
 ![screenshot](./docs/screenshot-public-ip.png)
 
@@ -191,7 +202,7 @@ sudo apt install -y nodejs npm
 
 This will install Node.js and npm, which we need to run our server. This may take a minute...
 
-Once that's complete, we will need a way to get a web server code onto the server. For this, we'll use git to clone our application repo:
+Once that's complete, we will need a way to get our application code onto the virtual machine. For this, we'll use git to clone our application repo:
 
 ```
 git clone https://github.com/eschwartz/prime-cloud-intro.git
@@ -224,7 +235,7 @@ Copy that URL into your web browser. You should see the _Todo List_ web app up a
 
 One last small warning: even with a "free tier" account, it is still possible to spend (lots of) money on AWS. For example, if you choose the wrong instance type (running a supercomputer in AWS is $$$!).
 
-So couple recommendations:
+So a couple of recommendations:
 
 **1. Get in the habit of cleaning up after yourself.**
 
@@ -238,4 +249,4 @@ Try to always do this after running anything in AWS, to prevent any surprise bil
 
 AWS has a _Budgets_ service, which will notify you if you spend more than you intended to. So if you do accidentally choose to run a supercomputer in AWS, it will only charge you for the first few hours, before sending you a notification that you're over budget.
 
-See [AWS docts for _Creating a Cost Budget_](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-create.html#create-cost-budget)
+See [AWS docs for _Creating a Cost Budget_](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-create.html#create-cost-budget)
