@@ -15,7 +15,6 @@ markdown-toc -i README.md --maxdepth 3
 <!-- toc -->
 
 - [Overview of the Code](#overview-of-the-code)
-  * [API Reference](#api-reference)
 - [Running the code locally](#running-the-code-locally)
 - [Deploying to The Cloud (AWS)](#deploying-to-the-cloud-aws)
   * [Sign up for an AWS Account](#sign-up-for-an-aws-account)
@@ -33,7 +32,7 @@ There are two main components to this application:
 1. A REST **API server**, to list, create, update, and delete todo list items.
 2. A **client application** with the todo list user interface.
 
-The **API server is written in Javascript (Node.js) using the [express.js](https://expressjs.com/) web framework. We're using a simple "in-memory" array of todo list objects as our data store (there is no actual Database, to keep things simple).
+The **API server** is written in Javascript (Node.js) using the [express.js](https://expressjs.com/) web framework. We're using a simple "in-memory" array of todo list objects as our data store (there is no actual database, just to keep things simple).
 
 The API server code is located in [server.js](./server.js).
 
@@ -41,69 +40,6 @@ The **client application** is written using HTML, CSS, and Javascript. The Javas
 
 The client application code is located in [views/index.html](./views/index.html).
 
-### API Reference
-
-We expose our data via RESTful API endpoints. For example:
-
-```
-Retrive a list of todo items
-
-GET /api/
-
-HTTP 200
-[
-    {
-        id: 0, 
-        label: 'Learn to Code', 
-        isDone: true
-    },
-    {
-        id: 1, 
-        label: 'Master the Cloud', 
-        isDone: false
-    }
-]
-```
-
-```
-Create a new todo list item
-
-POST /api/
-{
-    label: "Profit",
-    isDone: false
-}
-
-HTTP 201
-{
-    id: 2,
-    label: "Profit",
-    isDone: false
-}
-```
-
-```
-Update the todo list item, with id=2
-
-PUT /api/2
-{
-    isDone: true
-}
-
-HTTP 201
-{
-    id: 2,
-    label: "Profit",
-    isDone: true
-}
-```
-
-```
-Delete the todo list item, with id=2
-
-DELETE /api/2
-HTTP 204
-```
 
 
 ## Running the code locally 
