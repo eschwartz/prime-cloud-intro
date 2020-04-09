@@ -26,9 +26,9 @@
 
 - Download app code
 	- git clone https://github.com/eschwartz/prime-cloud-intro.git
-	  cd prime-cloud-intro
-	  npm install
-
+	- cd prime-cloud-intro
+	- npm install
+	
 - Run the express.js server
 	 - sudo npm start
 
