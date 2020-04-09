@@ -4,7 +4,27 @@ Sample application and supporting docs for Prime Digital Academy guest lecture, 
 
 ![App Demo](docs/app-screencast.gif)
 
-In this readme, we'll walk through how this application works, how to run it locally, and how to deploy it to cloud on AWS.
+In this readme, we'll walk through how this application works, how to run it locally, and how to deploy it to the cloud on AWS.
+
+<!--
+Generated with markdown-toc
+https://github.com/jonschlinkert/markdown-toc
+markdown-toc -i README.md --maxdepth 3
+-->
+
+<!-- toc -->
+
+- [Overview of the Code](#overview-of-the-code)
+  * [API Reference](#api-reference)
+- [Running the code locally](#running-the-code-locally)
+- [Deploying to The Cloud (AWS)](#deploying-to-the-cloud-aws)
+  * [Sign up for an AWS Account](#sign-up-for-an-aws-account)
+  * [Create an EC2 Instance](#create-an-ec2-instance)
+  * [SSH into your machine](#ssh-into-your-machine)
+  * [Deploy this application to your EC2 Instance](#deploy-this-application-to-your-ec2-instance)
+  * [IMPORTANT: Make a budget!](#important-make-a-budget)
+
+<!-- tocstop -->
 
 ## Overview of the Code
 
@@ -283,6 +303,3 @@ Try to always do this after running anything in AWS, to prevent any surprise bil
 AWS has a _Budgets_ service, which will notify you if you spend more than you intended to. So if you do accidentally choose to run a supercomputer in AWS, it will only charge you for the first few hours, before sending you a notification that you're over budget.
 
 See [AWS docts for _Creating a Cost Budget_](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-create.html#create-cost-budget)
-
-
- 
