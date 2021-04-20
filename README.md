@@ -193,11 +193,12 @@ If you're running into any trouble with the SSH connection, see the [AWS docs fo
 
 Our final step is to do a bit of server setup, and then deploy and run our application.
 
-With your SSH connection active (see last step), run the following commands:
+With your SSH connection active (see last step), run the following commands to install the latest version of node:
 
 ```
-sudo apt update
-sudo apt install -y nodejs npm
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+source ~/.bashrc
+nvm install --lts
 ``` 
 
 This will install Node.js and npm, which we need to run our server. This may take a minute...
