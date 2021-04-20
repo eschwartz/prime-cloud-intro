@@ -251,3 +251,42 @@ Try to always do this after running anything in AWS, to prevent any surprise bil
 AWS has a _Budgets_ service, which will notify you if you spend more than you intended to. So if you do accidentally choose to run a supercomputer in AWS, it will only charge you for the first few hours, before sending you a notification that you're over budget.
 
 See [AWS docs for _Creating a Cost Budget_](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-create.html#create-cost-budget)
+
+## Using the Node.js SDK for AWS
+
+Create an IAM user, with access to S3. Save the Acess Key ID, and Secret Access Key as environment variables in your app:
+
+```
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+```
+
+See docs: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html
+
+```js
+// npm install aws-sdk
+// Requires two env vars, from when you create an IAM user
+// AWS_ACCESS_KEY_ID
+// AWS_SECRET_ACCESS_KEY
+const aws = require('aws-sdk');
+const fs = require('fs');
+
+async function main() {
+  const s3 = new aws.S3();
+
+  await s3.upload({
+    Bucket: "cullen-lecture-4-20-21",
+    Key: "awesome-sauce.jpg",
+    Body: fs.createReadStream('/Users/edan/memes/awesome-sauce.jpg')
+  }).promise();
+
+  console.log('done');
+}
+
+main()
+  .then(() => process.exit(0))
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  })
+```
