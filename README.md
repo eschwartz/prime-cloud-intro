@@ -196,6 +196,7 @@ Our final step is to do a bit of server setup, and then deploy and run our appli
 With your SSH connection active (see last step), run the following commands to install the latest version of node:
 
 ```
+sudo su
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 source ~/.bashrc
 nvm install --lts
