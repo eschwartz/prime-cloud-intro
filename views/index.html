@@ -11,8 +11,6 @@
     -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
 
-    <link rel="stylesheet" href="./style.css">
-
     <style>
         #app {
             width: 1000px;
@@ -134,16 +132,10 @@
     // Grab the <table> element that holds our todo list
     const listTable = document.getElementById('list');
 
-    // Configure the URL of the todo list API.
-    // We're using EJS templates here, so that our server
-    // will set this value as it generates this HTML page,
-    // using the public IP address of our AWS EC2 instance.
-    const apiUrl = 'http://<%= hostname %>:<%= port %>/api';
-
     async function init() {
         // Load the todo list from our API server
         // by calling GET /api/
-        const getRes = await fetch(`${apiUrl}/`);
+        const getRes = await fetch(`/api`);
         const items = await getRes.json();
 
         // Render each item as <tr> elements
@@ -165,7 +157,7 @@
 
             // Call POST /api/
             // with our new item
-            const postRes = await fetch(`${apiUrl}/`, {
+            const postRes = await fetch(`/api`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -201,7 +193,7 @@
         const isDoneToggle = tr.querySelector('.is-done-toggle');
         isDoneToggle.onclick = () => {
             item.isDone = !item.isDone;
-            fetch(`${apiUrl}/${item.id}`, {
+            fetch(`/api/${item.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -215,7 +207,7 @@
         const removeItemButton = tr.querySelector('.remove-item');
         removeItemButton.onclick = () => {
             listTable.removeChild(tr);
-            fetch(`${apiUrl}/${item.id}`, {
+            fetch(`/api/${item.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
